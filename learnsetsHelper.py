@@ -54,25 +54,27 @@ def getTypescriptBlock(pokemon, moves):
 
 @app.route('/')
 def index():
-    return render_template('learnsetsHelper.html')
+    return render_template('home.html')
 
 @app.route('/getLearnsetBlock',methods = ['POST', 'GET'])
 def getLearnsetBlock():
 	if request.method == 'POST':
-		rejects = []
-		learnsetSpec = request.form['learnsetSpec']
-		if "@" not in learnsetSpec:
-			return render_template('learnsetsHelper.html', text="Input text does not match requirements")
-		inputPokemonName = learnsetSpec.split('@')[0]
-		inputMoves = learnsetSpec.split('@')[1].split(',')
-		for inputMove in inputMoves:
-			if not validateMoveName(inputMove):
-				rejects.append(inputMove)
-		if rejects:
-			return render_template('learnsetsHelper.html', text=rejects, rejects=True)
-		typescriptResponse = getTypescriptBlock(inputPokemonName, inputMoves)
-		print(typescriptResponse)
-		return render_template('learnsetsHelper.html', text=typescriptResponse, mimetype='text/html')
+		if request.form:
+			rejects = []
+			learnsetSpec = request.form['learnsetSpec']
+			if "@" not in learnsetSpec:
+				return render_template('learnsetsHelper.html', text="Input text does not match requirements")
+			inputPokemonName = learnsetSpec.split('@')[0]
+			inputMoves = learnsetSpec.split('@')[1].split(',')
+			for inputMove in inputMoves:
+				if not validateMoveName(inputMove):
+					rejects.append(inputMove)
+			if rejects:
+				return render_template('learnsetsHelper.html', text=rejects, rejects=True)
+			typescriptResponse = getTypescriptBlock(inputPokemonName, inputMoves)
+			print(typescriptResponse)
+			return render_template('learnsetsHelper.html', text=typescriptResponse, mimetype='text/html')
+	return render_template('learnsetsHelper.html')
 
 if __name__ == '__main__':
 	if DEBUG:

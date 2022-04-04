@@ -10,7 +10,7 @@
   </head>
 
 <body>
-<form name="send-learnset" action="{{ url_for('getLearnsetBlock') }} " method="post" class="form-example">
+<form name="send-learnset" action="{{ url_for('getLearnsetBlock') }}" method="post" class="form-example">
   <div id="specdiv">
 	  <h3>Paste your spec in the text area below :</h3>
 	  <br/>Example:<br/><br/>mossedge@thunder,waterpulse,acidspray<br/><br/>
@@ -20,24 +20,21 @@
     <input type="submit" value="Send learnsets data" id="submit-button">
   </div>
 </form>
-<div id="result">
-  Result:<br/><br/>
-  {% autoescape false %}
-    {% if not rejects %}
-      {{ text }}
-    {% endif %}
-    {% if rejects %}
-      Following moves have been rejected because cannot be identified in current moves data:<br/>
-      {% for i in text %}
-        &nbsp;&nbsp;&nbsp;- {{ i }}<br/>
-      {% endfor %}
-    {% endif %}
-  {% endautoescape %}
-</div>
-<script>
-  // var msg = new SpeechSynthesisUtterance();
-  // msg.text = '{{ text }}';
-  // window.speechSynthesis.speak(msg);
-</script>
+{% if text %}
+  <div id="result">
+    Result:<br/><br/>
+    {% autoescape false %}
+      {% if not rejects %}
+        {{ text }}
+      {% endif %}
+      {% if rejects %}
+        Following moves have been rejected because cannot be identified in current moves data:<br/>
+        {% for i in text %}
+          &nbsp;&nbsp;&nbsp;- {{ i }}<br/>
+        {% endfor %}
+      {% endif %}
+    {% endautoescape %}
+  </div>
+{% endif %}
 </body>
 </html>
