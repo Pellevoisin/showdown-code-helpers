@@ -55,8 +55,9 @@ def getTypescriptBlock(pokemon, moves):
 def cleanSpecs(spec):
 	invalidChars = ['-', ' ']
 	for char in invalidChars:
-		spec.replace(char, '')
-	spec.lower()
+		spec = spec.replace(char, '')
+	spec = spec.lower()
+	print(spec)
 	return spec
 
 @app.route('/')
@@ -79,7 +80,6 @@ def getLearnsetBlock():
 			if rejects:
 				return render_template('learnsetsHelper.html', text=rejects, rejects=True)
 			typescriptResponse = getTypescriptBlock(inputPokemonName, inputMoves)
-			print(typescriptResponse)
 			return render_template('learnsetsHelper.html', text=typescriptResponse, mimetype='text/html')
 	return render_template('learnsetsHelper.html')
 
