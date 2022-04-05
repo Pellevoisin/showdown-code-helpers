@@ -52,6 +52,13 @@ def getTypescriptBlock(pokemon, moves):
 	typescriptBlock += "},"
 	return typescriptBlock
 
+def cleanSpecs(spec):
+	invalidChars = ['-', ' ']
+	for char in invalidChars:
+		spec.replace(char, '')
+	spec.lower()
+	return spec
+
 @app.route('/')
 def index():
     return render_template('home.html')
@@ -61,7 +68,7 @@ def getLearnsetBlock():
 	if request.method == 'POST':
 		if request.form:
 			rejects = []
-			learnsetSpec = request.form['learnsetSpec']
+			learnsetSpec = cleanSpecs(request.form['learnsetSpec'])
 			if "@" not in learnsetSpec:
 				return render_template('learnsetsHelper.html', text="Input text does not match requirements")
 			inputPokemonName = learnsetSpec.split('@')[0]
